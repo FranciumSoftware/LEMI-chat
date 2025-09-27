@@ -1,0 +1,121 @@
+QMainWindow {
+    background-color: #e6eaeb;
+}
+QPushButton#sendButton {
+    background-color: #009cea;
+    border: none;
+    color: white;
+    padding: 5px 22px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    margin-bottom: 20px;
+    border-radius: 16px;
+}
+QPushButton#sendButton:hover {
+    background-color: #0d4561;
+    border: none;
+    color: white;
+    padding: 5px 22px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 16px;
+}
+QPushButton {
+    background-color: #009cea;
+    border: none;
+    color: white;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+QPushButton:disabled {
+    background-color: #b0c9d5;
+    border: none;
+    color: #dadada;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+QTextEdit#textEdit {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+}
+QListView {
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+QListView::item {
+    padding: 2px;
+}
+QListView::item:hover,QListView::item:focus {
+    padding: 2px 2px 2px 0px;
+    border-left:2px solid #2001aa;
+    
+}
+QListView::item:selected {
+    background-color: #5d906e;
+}
+QTabWidget::pane {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 5px;
+    background-color: #f3f4f4;
+    margin-top: -1px; /* To overlap the tab bar */
+}
+QTabWidget::tab-bar {
+    height: 60px;
+    font-size: 20px;
+    alignment: center;
+}
+
+QTabBar::tab {
+    border-color:white;
+    font: bold 12px 'Arial';
+    color: white;
+    height:60px;
+    text-align: left;
+}
+
+QTabBar::tab:!selected {
+    background-color: transparent;
+    color: black;
+ }
+ QListWidgetItem{
+    border-bottom: 1px solid #aaaaaa;
+ }
+ QLineEdit{
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 14px;
+ }
+ QLineEdit:focus{
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    border: 2px solid #009cea;
+    padding: 5px;
+    font-size: 14px;
+ }
+ QPlainTextEdit{
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 14px;
+ }

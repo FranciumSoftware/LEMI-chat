@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 67.733334 67.733334"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <rect
+       x="117.55634"
+       y="318.2623"
+       width="441.55307"
+       height="141.92778"
+       id="rect4" />
+  </defs>
+  <g
+     id="layer1">
+    <g
+       id="g4"
+       transform="matrix(0.54914552,0,0,0.54914552,-2.7008354,-42.068636)">
+      <path
+         style="fill:none;fill-opacity:1;stroke:#132bc9;stroke-width:6.765;stroke-linecap:round;stroke-opacity:1"
+         d="m 111.13793,155.51724 -34.517241,29.5862"
+         id="path4" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:#132bc9;stroke-width:6.765;stroke-linecap:round;stroke-opacity:1"
+         d="m 19.724138,115.68965 53.482757,67.13793"
+         id="path2" />
+      <circle
+         style="fill:#0741ff;fill-opacity:1;stroke:none;stroke-width:2.911;stroke-linecap:round"
+         id="path1"
+         cx="75.293098"
+         cy="182.63794"
+         r="13.465518" />
+      <circle
+         style="fill:#0741ff;fill-opacity:1;stroke:none;stroke-width:2.911;stroke-linecap:round"
+         id="path1-8"
+         cx="20.094753"
+         cy="112.90437"
+         r="13.465518" />
+      <text
+         xml:space="preserve"
+         transform="matrix(0.69276635,0.7999444,-1.0405328,0.7200375,321.22924,-256.10118)"
+         id="text4"
+         style="font-weight:bold;font-size:53.3333px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect4);display:inline;fill:none;fill-opacity:1;stroke:#132bc9;stroke-width:25.5685;stroke-linecap:round;stroke-opacity:1"><tspan
+           x="117.55664"
+           y="364.92836"
+           id="tspan2"><tspan
+             style="fill:#0c1f5b;stroke:none"
+             id="tspan1">EMI</tspan></tspan></text>
+      <circle
+         style="fill:#0741ff;fill-opacity:1;stroke:none;stroke-width:2.911;stroke-linecap:round"
+         id="path1-1"
+         cx="111.17191"
+         cy="154.29634"
+         r="13.465518" />
+    </g>
+  </g>
+</svg>

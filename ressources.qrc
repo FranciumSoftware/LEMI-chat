@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>assets/chat selected.svg</file>
+        <file>assets/ic_fluent_chat_multiple_24_filled.svg</file>
+        <file>assets/ic_fluent_send_24_filled.svg</file>
+        <file>assets/ic_fluent_settings_24_filled.svg</file>
+        <file>assets/setting selected.svg</file>
+        <file>assets/sync.svg</file>
+        <file>assets/upgrade.svg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>Icon.png</file>
+        <file>Icon.svg</file>
+        <file>styles.qss</file>
+        <file>pseudo</file>
+    </qresource>
+</RCC>
