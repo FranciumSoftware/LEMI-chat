@@ -37,11 +37,11 @@ DiagUp::DiagUp(QWidget *parent) :
 
 bool DiagUp::connectToMySQL() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("d6xnds.h.filess.io");
-    db.setDatabaseName("LEMIMain_vastengine");
-    db.setUserName("LEMIMain_vastengine");
-    db.setPassword("fe55834a73cdd149f1ad5ef5c686a286d920902f");
-    db.setPort(3307);
+    db.setHostName("Host");
+    db.setDatabaseName("Name");
+    db.setUserName("User");
+    db.setPassword("Did you think I've leaked my password?");
+    db.setPort(00);
 
     if (!db.open()) {
         qDebug() << "Erreur de connexion à MySQL : " << db.lastError().text();
@@ -260,4 +260,5 @@ void DiagUp::on_fermer_pressed()
     shadowCheck->setOffset(-2, -2); // Décalage de l'ombre (x, y)
     ui->fermer->setGraphicsEffect(shadowCheck);
 }
+
 
