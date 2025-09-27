@@ -127,10 +127,10 @@ void MainWindow::on_pseudo_textChanged(const QString &text) {
 
 bool MainWindow::connectToMySQL() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("d6xnds.h.filess.io");
-    db.setDatabaseName("LEMIMain_vastengine");
-    db.setUserName("LEMIMain_vastengine");
-    db.setPassword("fe55834a73cdd149f1ad5ef5c686a286d920902f");
+    db.setHostName("domain");
+    db.setDatabaseName("Name");
+    db.setUserName("User");
+    db.setPassword("Do you think i leak my passwords?");
     db.setPort(3307);
 
     if (!db.open()) {
@@ -344,4 +344,5 @@ void MainWindow::on_check_released()
     shadowCheck->setOffset(3, 3); // Décalage de l'ombre (x, y)
     ui->check->setGraphicsEffect(shadowCheck);
 }
+
 
