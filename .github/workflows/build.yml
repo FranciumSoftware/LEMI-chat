@@ -17,7 +17,7 @@ jobs:
       - name: Set up Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '6.5.0'
+          version: '6.9.2'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_mingw'
@@ -31,3 +31,17 @@ jobs:
         run: |
           qmake
           mingw32-make
+
+      - name: Create ZIP artifact
+        run: |
+          mkdir dist
+          # Remplacez 'MonApp.exe' par le nom de votre exécutable
+          copy *.exe dist\
+          # Ajoutez ici d'autres fichiers nécessaires (DLL, ressources, etc.)
+          Compress-Archive -Path dist\* -DestinationPath app-windows.zip
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-windows
+          path: app-windows.zip
