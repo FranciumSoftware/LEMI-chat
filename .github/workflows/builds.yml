@@ -1,0 +1,34 @@
+
+name: Build Qt App (MinGW)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.9.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw'
+          dir: '${{ runner.temp }}/qt'
+
+      - name: Add MinGW to PATH
+        run: |
+          echo "${{ env.Qt6_DIR }}/../Tools/mingw1120_64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Build with qmake and mingw32-make
+        run: |
+          qmake
+          mingw32-make

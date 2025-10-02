@@ -11,7 +11,7 @@ QPushButton#sendButton {
     font-size: 16px;
     margin: 4px 2px;
     margin-bottom: 20px;
-    border-radius: 16px;
+    border-radius: 15px;
 }
 QPushButton#sendButton:hover {
     background-color: #0d4561;
@@ -21,7 +21,6 @@ QPushButton#sendButton:hover {
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    border-radius: 16px;
 }
 QPushButton {
     background-color: #009cea;

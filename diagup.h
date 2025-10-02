@@ -16,7 +16,6 @@ class DiagUp : public QDialog {
 public:
     explicit DiagUp(QWidget *parent = nullptr);
     ~DiagUp();
-    bool connectToMySQL();
 
 private slots:
     void on_fermer_clicked();

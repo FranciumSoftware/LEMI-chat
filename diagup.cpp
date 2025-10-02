@@ -21,10 +21,6 @@ DiagUp::DiagUp(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    if (!connectToMySQL()) {
-        QMessageBox::critical(this, "Erreur", "Impossible de se connecter à la base de données.");
-        return;
-    }
 
     checkForUpdate();
     QGraphicsDropShadowEffect *shadowCheck = new QGraphicsDropShadowEffect;
@@ -37,11 +33,11 @@ DiagUp::DiagUp(QWidget *parent) :
 
 bool DiagUp::connectToMySQL() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("Host");
-    db.setDatabaseName("Name");
-    db.setUserName("User");
-    db.setPassword("Did you think I've leaked my password?");
-    db.setPort(00);
+    db.setHostName("d6xnds.h.filess.io");
+    db.setDatabaseName("LEMIMain_vastengine");
+    db.setUserName("LEMIMain_vastengine");
+    db.setPassword("fe55834a73cdd149f1ad5ef5c686a286d920902f");
+    db.setPort(3007);
 
     if (!db.open()) {
         qDebug() << "Erreur de connexion à MySQL : " << db.lastError().text();
@@ -67,8 +63,8 @@ void DiagUp::checkForUpdate() {
     download = query.value("download").toString().trimmed();
     QString display = query.value("display").toString().trimmed();
 
-    const int actVer = 10;
-    const QString displayVer = "1.0";
+    const int actVer = 11;
+    const QString displayVer = "1.1";
 
     if (version > actVer) {
         ui->message->setPlainText("Mise à jour disponible\n"
@@ -200,14 +196,15 @@ void DiagUp::onDownloadFinished() {
 
     file.close();
     qDebug() << "Fichier téléchargé avec succès : " << downloadFilePath;
-    QMessageBox::information(this, "Succès", "Fichier téléchargé : " + downloadFilePath);
 
     reply->deleteLater();
     currentReply = nullptr;
-    progressDialog->hide();
-    QProcess process;
-    process.start(downloadFilePath, {"arg1", "arg2"});
 
+    QProcess process;
+    process.startDetached(downloadFilePath);
+    progressDialog->hide();
+    this->hide();
+    QCoreApplication::quit;
 
 }
 

@@ -15,6 +15,8 @@
 #include <QGraphicsDropShadowEffect>
 #include <QFile>
 #include <QTextStream>
+#include <QSystemTrayIcon>
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -71,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Connecter le signal textChanged
     connect(ui->pseudo, &QLineEdit::textChanged, this, &MainWindow::on_pseudo_textChanged);
 
-    refreshMessages();
+    firstRefresh();
 
     // Timer pour le rafraîchissement automatique
     refreshTimer = new QTimer(this);
@@ -81,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     getBans();
     QString aboutText="Lemi (Logiciel d'Entraide via Messages sur Internet)\n"
-        "Version 1.0\n"
+        "Version 1.1\n"
         "© 2025 Lemi team\n"
         "Appareil: "+QSysInfo::machineHostName()+" "+QSysInfo::productType()+" "+QSysInfo::productVersion()+
         "\nAdresse MAC: "+getMacAddressWindows();
@@ -107,7 +109,40 @@ MainWindow::MainWindow(QWidget *parent) :
         fichier.close();
         ui->pseudo->setText(premiereLigne);
     }
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(QIcon(":/Icon.png")); // Remplace par ton icône
+
+    trayMenu = new QMenu(this);
+    QAction *restoreAction = new QAction("Restaurer", this);
+    QAction *quitAction = new QAction("Quitter", this);
+
+    connect(restoreAction, &QAction::triggered, this, &MainWindow::showNormal);
+    connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+
+    trayMenu->addAction(restoreAction);
+    trayMenu->addAction(quitAction);
+
+    trayIcon->setContextMenu(trayMenu);
+    trayIcon->show();
+
+    ui->textEdit->installEventFilter(this);
+
+    ui->listView->setFlow(QListView::TopToBottom);
+    ui->listView->scrollToBottom();
+
+    connect(trayIcon, &QSystemTrayIcon::messageClicked, this, &MainWindow::showNormal);
+
+
 }
+void MainWindow::restoreFromTray()
+{
+    qDebug() << "Notification cliquée !";
+
+    this->showNormal();     // Affiche la fenêtre
+    this->activateWindow(); // Donne le focus
+    this->raise();          // Amène au premier plan
+}
+
 
 void MainWindow::on_pseudo_textChanged(const QString &text) {
     myPseudo = text.trimmed();
@@ -125,22 +160,6 @@ void MainWindow::on_pseudo_textChanged(const QString &text) {
 }
 
 
-bool MainWindow::connectToMySQL() {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("domain");
-    db.setDatabaseName("Name");
-    db.setUserName("User");
-    db.setPassword("Do you think i leak my passwords?");
-    db.setPort(3307);
-
-    if (!db.open()) {
-        QMessageBox::critical(this, "Erreur de connexion au serveur", "Nous n'avons pas pu nous connecter au serveur. "
-                                                                      "Veuillez vérifier votre connection internet et si le problème persiste veuillez vous renseigner sur l'état des serveurs.\n Détails:"+
-                                                                          db.lastError().text());
-        return false;
-    }
-    return true;
-}
 
 void MainWindow::createMessagesTable() {
     QSqlQuery query;
@@ -159,10 +178,44 @@ void MainWindow::insertMessage(const QString &pseudo, const QString &message) {
 
 
 void MainWindow::refreshMessages() {
-    queryModel->setQuery("SELECT pseudo, contenu FROM messages ORDER BY date_envoi DESC");
+    int legth=ui->listView->model()->rowCount();
+    queryModel->setQuery("SELECT pseudo, contenu FROM messages ORDER BY date_envoi ASC");
+
     if (queryModel->lastError().isValid()) {
         qDebug() << "Erreur lors du chargement des messages : " << queryModel->lastError().text();
     }
+    int nlength=ui->listView->model()->rowCount();
+    int mid=nlength-legth;
+    if (!this->isActiveWindow()){
+        if (legth<nlength){
+            QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
+            trayIcon->setIcon(QIcon(":/Icon.png")); // Icône de la notification
+            trayIcon->show();
+
+
+            int lastRow = queryModel->rowCount() - 1;
+            QString dernierMessage;
+
+            if (lastRow >= 0) {
+                QModelIndex index = queryModel->index(lastRow, 1); // colonne 1 = contenu
+                dernierMessage = index.data().toString();
+            }
+
+            trayIcon->showMessage("Nouveaux messages", dernierMessage, QSystemTrayIcon::Information, 15000);
+            connect(trayIcon, &QSystemTrayIcon::messageClicked, this, &MainWindow::showNormal);
+
+        }
+    }
+    ui->listView->scrollToBottom();
+}
+void MainWindow::firstRefresh(){
+    queryModel->setQuery("SELECT pseudo, contenu FROM messages ORDER BY date_envoi ASC");
+
+    if (queryModel->lastError().isValid()) {
+        qDebug() << "Erreur lors du chargement des messages : " << queryModel->lastError().text();
+    }
+    ui->listView->scrollToBottom();
+
 }
 
 void MainWindow::on_sendButton_clicked() {
@@ -257,7 +310,7 @@ void MainWindow::showListViewContextMenu(const QPoint &pos)
 
         // Ajoutez ici la logique pour signaler le message
         QSqlQuery query;
-        query.prepare("INSERT INTO `chatt`.`flags` (`Message`, `mac`, `pseudo`) VALUES (:contenu, :mac, :pseudo)");
+        query.prepare("INSERT INTO `LEMIMain_vastengine`.`flags` (`Message`, `mac`, `pseudo`) VALUES (:contenu, :mac, :pseudo)");
         query.bindValue(":pseudo", myPseudo);  // Utiliser l'argument `pseudo`
         query.bindValue(":contenu", message); // Utiliser l'argument `message`
         query.bindValue(":mac", getMacAddressWindows());
@@ -343,6 +396,23 @@ void MainWindow::on_check_released()
     shadowCheck->setColor(QColor(0, 0, 0, 255)); // Couleur noire avec transparence
     shadowCheck->setOffset(3, 3); // Décalage de l'ombre (x, y)
     ui->check->setGraphicsEffect(shadowCheck);
+}
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    setVisible(false); // Cache proprement la fenêtrehide(); // Cache la fenêtre
+
+    event->ignore(); // Empêche la fermeture
+}
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui->textEdit && event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Return && !(keyEvent->modifiers() & Qt::ShiftModifier)) {
+            on_sendButton_clicked(); // Appelle ta fonction d'envoi
+            return true; // Empêche le retour à la ligne
+        }
+    }
+    return QMainWindow::eventFilter(obj, event);
 }
 
 

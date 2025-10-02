@@ -9,6 +9,7 @@
 #include <QSettings>
 #include "customquerymodel.h"
 #include "customdelegate.h"
+#include <QSystemTrayIcon>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void firstRefresh();
     void refreshMessages();
     bool connectToMySQL();
     void createMessagesTable();
@@ -35,7 +37,7 @@ private slots:
     void on_pseudo_textChanged(const QString &text); // Doit correspondre au nom du slot
     void showListViewContextMenu(const QPoint &pos);
     void on_check_clicked();
-
+    void restoreFromTray();
     void on_sendButton_pressed();
 
     void on_sendButton_released();
@@ -61,7 +63,12 @@ private:
     QStringList joursList;   // Liste pour les jours
     QString getMacAddressWindows();
     QSettings settings;
+    QSystemTrayIcon *trayIcon=nullptr;
+    QMenu *trayMenu;
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
 #endif // MAINWINDOW_H
